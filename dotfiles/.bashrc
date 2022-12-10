@@ -101,3 +101,5 @@ fi
 
 #--- Path - Variable ----------------------------------------------------------
 export PATH=$PATH:~/snippets/
+if [ -f ~/snippets/hi ] ; then ~/snippets/hi ; fi
+
