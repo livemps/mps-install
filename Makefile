@@ -6,7 +6,8 @@ default: help
 
 # --- Makefile config ---------------------------------------------------------
 APT_TRANSPORT       := apt-transport-https ca-certificates curl gnupg2 wget
-APT_ESSENTIALS      := git vim sudo htop cowsay psmisc
+APT_ESSENTIALS      := git vim sudo htop psmisc
+APT_BULLSHIT        := cowsay fortune fortunes-de fortunes-off cmatrix
 APT_ARCHIVES        := zip unzip bzip2 dtrx
 APT_BUILD           := gcc gdb build-essential
 APT_NETWORK         := net-tools iptables tcpdump whois ssh nmap netcat dnsutils
@@ -52,7 +53,9 @@ snippets:
 	cp snippets/* ~/snippets/
 	chmod a+x ~/snippets/*
 key:
-	-ssh-keygen
+	@if [ ! -f ~/.ssh/id_rsa.pub ] ; then \
+	  ssh-keygen ; \
+	fi
 homedir: dotfiles snippets key
 	mkdir -p ~/scratch
 	mkdir -p ~/repo
@@ -60,7 +63,8 @@ homedir: dotfiles snippets key
 
 # --- APT Installers ----------------------------------------------------------
 min: 
-	sudo apt install $(APT_TRANSPORT) $(APT_ESSENTIALS) $(APT_ARCHIVES) -y
+	sudo apt install  $(APT_ESSENTIALS) $(APT_BULLSHIT) \
+		$(APT_ARCHIVES) $(APT_TRANSPORT) -y
 net:
 	sudo apt install $(APT_NETWORK) -y
 dev:

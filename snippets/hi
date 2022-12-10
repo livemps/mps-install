@@ -1,3 +1,45 @@
 #!/bin/bash
 
-cowsay "Hello, $USER!"
+function netinfo { 
+    STR_NET=$(ip -br addr | grep -v veth | grep -v br-)
+    STR_BR=$(ip -br addr | grep -v veth | grep br-)
+    echo "$STR_NET"
+    echo "$STR_BR"
+}
+
+
+function meminfo { 
+    STR_MEM=$(free -m -h -t | grep Total: | cut -d":" -f2 | xargs)
+    STR_TOT=$(echo $STR_MEM | cut -d" " -f1)
+    STR_USED=$(echo $STR_MEM | cut -d" " -f2)
+    STR_FREE=$(echo $STR_MEM | cut -d" " -f3)
+    echo "Total: $STR_TOT Used: $STR_USED Free: $STR_FREE"
+}
+
+function cpuinfo { 
+    STR_ARCH=$(lscpu | grep Architecture | cut -d":" -f2 | xargs)
+    STR_MODEL=$(lscpu | grep "Model name:" | cut -d":" -f2 | xargs)
+    STR_NUMCPU=$(lscpu | grep -e "^CPU(s):" | cut -d":" -f2 | xargs)
+    STR_MEM=$(free -m -h -t | grep Total: | cut -d":" -f2 | xargs)
+    echo "$STR_NUMCPU Cores => $STR_MODEL ($STR_ARCH)"
+}
+
+clear
+#echo "### Date:    #####" $(date)
+#echo "### Uptime:  #####" $(uptime)
+echo "### CPU:     #####" 
+echo "$(cpuinfo)"
+echo ""
+echo "### Uname:    #####"
+echo "$(uname -a)"
+#echo "### Memory: #####" $(meminfo)
+echo ""
+echo "### Tasks:   #####"
+echo "$(top -b -c -n1 | head -n4)"
+echo ""
+echo "### Disks:   #####" ; lsblk --all --fs
+echo ""
+echo "### Net:     #####" ; netinfo 
+echo ""
+echo "### Mindset: #####"
+cowsay $(fortune -a)
