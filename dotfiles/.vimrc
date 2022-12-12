@@ -104,10 +104,10 @@ nnoremap <C-k> <C-W>k    " Window down
 nnoremap <C-h> <C-W>h    " Window left
 nnoremap <C-l> <C-W>l    " Window right
 " Resize
-nnoremap <A-j> :resize +3<CR>
-nnoremap <A-k> :resize -3<CR>
-nnoremap <A-h> :vertical resize +3<CR>
-nnoremap <A-l> :vertical resize -3<CR>
+nnoremap <C-A-j> :resize +3<CR>
+nnoremap <C-A-k> :resize -3<CR>
+nnoremap <C-A-h> :vertical resize +3<CR>
+nnoremap <C-A-l> :vertical resize -3<CR>
 " 1/2 Page jump
 nnoremap <C-d> <C-d>zz          " Cursor half page down (centered)
 nnoremap <C-u> <C-u>zz          " Cursor half page up (centered)
