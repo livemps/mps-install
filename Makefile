@@ -4,9 +4,9 @@ default: help
 .PHONY: default help prepare dotfiles snippets homedir min key net dev txt \
 	flux gui-tools essentials server developer worker desktop-min desktop-tools
 
-# --- Makefile config ---------------------------------------------------------
+# --- Makefile config (APT) ---------------------------------------------------
 APT_TRANSPORT       := apt-transport-https ca-certificates curl gnupg2 wget
-APT_ESSENTIALS      := git vim sudo htop psmisc
+APT_ESSENTIALS      := git vim neovim sudo htop psmisc tree
 APT_BULLSHIT        := cowsay fortune fortunes-de fortunes-off cmatrix
 APT_ARCHIVES        := zip unzip bzip2 dtrx
 APT_BUILD           := gcc gdb build-essential
@@ -25,7 +25,9 @@ APT_DSK_THUNAR      := thunar thunar-data thunar-archive-plugin \
 						thunar-media-tags-plugin thunar-volman \
 						xfce4-goodies xfce4-places-plugin \
 						thunar-gtkhash thunar-vcs-plugin file-roller
-
+# --- Makefile config (VIM) ---------------------------------------------------
+VIMPLUG				:= ~/.vim/autoload/plug.vim
+NVIMPLUG			:= ~/.local/share/nvim/site/autoload/plug.vim 
 # --- Help --------------------------------------------------------------------
 help:
 	@echo "Usage: make TARGET"
@@ -43,9 +45,19 @@ help:
 prepare:
 	sudo apt update -y && sudo apt upgrade -y
 
+# --- Vim Plugins -------------------------------------------------------------
+$(VIMPLUG):
+	-curl -fLo i$(VIMPLUG) --create-dirs \
+    	https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+$(NVIMPLUG):
+	-mkdir ~/.config/nvim
+	-sh -c 'curl -fLo $(NVIMPLUG) --create-dirs \
+       		https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 # --- HOME folder -------------------------------------------------------------
-dotfiles:
+vim:  $(VIMPLUG) $(NVIMPLUG)
 	cp dotfiles/.vimrc ~
+	cp dotfiles/init.vim ~/.config/nvim/init.vim
+dotfiles: vim
 	cp dotfiles/.bashrc ~
 	cp dotfiles/.gitconfig ~
 snippets:

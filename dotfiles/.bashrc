@@ -69,15 +69,16 @@ if [ -x /usr/bin/dircolors ]; then
 fi
 
 #--- Aliases ------------------------------------------------------------------
+# ls
 alias ll='ls -lah --color=auto'
 alias la='ls -A --color=auto'
 alias l='ls -CF --color=auto'
-alias ns='sudo netstat -tulpano'
+# apt
 alias as='apt search'
 alias ai='sudo apt install'
 alias uu='sudo apt update && sudo apt upgrade'
 alias cmmi='./configure && make && sudo make install'
-
+# git
 alias gs='git status'
 alias gl='git log'
 alias gd='git diff'
@@ -87,9 +88,12 @@ alias gac='git add -A ; git commit -m '
 alias gc='git commit -m'
 alias gpull='git pull'
 alias gpush='git push'
-
+# Docker
 alias dps="docker ps"
 alias di="docker images"
+# network
+alias ns='sudo netstat -tulpano'
+alias v='nvim'
 #--- Enable programmable completion features ----------------------------------
 if ! shopt -oq posix; then
   if [ -f /usr/share/bash-completion/bash_completion ]; then
@@ -99,7 +103,7 @@ if ! shopt -oq posix; then
   fi
 fi
 
-#--- Path - Variable ----------------------------------------------------------
+#--- Environment Variable -----------------------------------------------------
 export PATH=$PATH:~/snippets/
 if [ -f ~/snippets/hi ] ; then ~/snippets/hi ; fi
-
+export EDITOR=nvim
