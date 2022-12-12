@@ -24,7 +24,7 @@ function cpuinfo {
     echo "$STR_NUMCPU Cores => $STR_MODEL ($STR_ARCH)"
 }
 
-clear
+#clear
 #echo "### Date:    #####" $(date)
 #echo "### Uptime:  #####" $(uptime)
 echo "### CPU:     #####" 

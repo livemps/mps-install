@@ -39,6 +39,31 @@ set splitbelow
 set splitright
 set hidden
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Status bar 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set laststatus=2
+function! GitBranch()
+  return system("git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d '\n'")
+endfunction
+function! StatuslineGit()
+  let l:branchname = GitBranch()
+  return strlen(l:branchname) > 0?'  '.l:branchname.' ':''
+endfunction
+set statusline=
+set statusline+=%#PmenuSel#
+set statusline+=%{StatuslineGit()}
+set statusline+=%#LineNr#
+set statusline+=\ %f
+set statusline+=%m\
+set statusline+=%=
+set statusline+=%#CursorColumn#
+set statusline+=\ %y
+set statusline+=\ %{&fileencoding?&fileencoding:&encoding}
+set statusline+=\[%{&fileformat}\]
+set statusline+=\ %p%%
+set statusline+=\ %l:%c
+set statusline+=\
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Some type specific configs
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let mapleader = " "
@@ -71,9 +96,57 @@ nnoremap <C-n> :NERDTree<CR>
 nnoremap <C-t> :NERDTreeToggle<CR>
 nnoremap <C-f> :NERDTreeFind<CR>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Window move 
+" Motions 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-map <C-j> <C-W>j
-map <C-k> <C-W>k
-map <C-h> <C-W>h
-map <C-l> <C-W>l
+"Window
+nnoremap <C-j> <C-W>j    " Window up
+nnoremap <C-k> <C-W>k    " Window down
+nnoremap <C-h> <C-W>h    " Window left
+nnoremap <C-l> <C-W>l    " Window right
+" Resize
+nnoremap <A-j> :resize +3<CR>
+nnoremap <A-k> :resize -3<CR>
+nnoremap <A-h> :vertical resize +3<CR>
+nnoremap <A-l> :vertical resize -3<CR>
+" 1/2 Page jump
+nnoremap <C-d> <C-d>zz          " Cursor half page down (centered)
+nnoremap <C-u> <C-u>zz          " Cursor half page up (centered)
+" Other
+nnoremap <n> nzzzv              " Cursor half page down (centered)
+nnoremap <N> Nzzzv              " Cursor half page up (centered)
+nnoremap "<leader>p" "\"_dP     " Keep copy
+tnoremap <Esc> <C-\><C-n>       " Escape terminal 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Background color inactive windows 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Dim inactive windows using 'colorcolumn' setting
+" This tends to slow down redrawing, but is very useful.
+" Based on https://groups.google.com/d/msg/vim_use/IJU-Vk-QLJE/xz4hjPjCRBUJ
+" XXX: this will only work with lines containing text (i.e. not '~')
+function! s:DimInactiveWindows()
+  for i in range(1, tabpagewinnr(tabpagenr(), '$'))
+    let l:range = ""
+    if i != winnr()
+      if &wrap
+        " HACK: when wrapping lines is enabled, we use the maximum number
+        " of columns getting highlighted. This might get calculated by
+        " looking for the longest visible line and using a multiple of
+        " winwidth().
+        let l:width=256 " max
+      else
+        let l:width=winwidth(i)
+      endif
+      let l:range = join(range(1, l:width), ',')
+    endif
+    call setwinvar(i, '&colorcolumn', l:range)
+  endfor
+endfunction
+augroup DimInactiveWindows
+  au!
+  au WinEnter * call s:DimInactiveWindows()
+  au WinEnter * set cursorline
+  au WinLeave * set nocursorline
+augroup END
+
+
+

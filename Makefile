@@ -47,17 +47,22 @@ prepare:
 
 # --- Vim Plugins -------------------------------------------------------------
 $(VIMPLUG):
-	-curl -fLo i$(VIMPLUG) --create-dirs \
+	-curl -fLo $(VIMPLUG) --create-dirs \
     	https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 $(NVIMPLUG):
 	-mkdir ~/.config/nvim
 	-sh -c 'curl -fLo $(NVIMPLUG) --create-dirs \
        		https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+neovim: $(VIMPLUG) $(NVIMPLUG)
+	@if [ ! -f /usr/bin/nvim ] ; then \
+		curl -LO https://github.com/neovim/neovim/releases/download/stable/nvim-linux64.deb ; \
+		sudo dpkg -i nvim-linux64.deb ; \
+		sudo rm nvim-linux64.deb ; \
+	fi
 # --- HOME folder -------------------------------------------------------------
-vim:  $(VIMPLUG) $(NVIMPLUG)
+dotfiles: 
 	cp dotfiles/.vimrc ~
 	cp dotfiles/init.vim ~/.config/nvim/init.vim
-dotfiles: vim
 	cp dotfiles/.bashrc ~
 	cp dotfiles/.gitconfig ~
 snippets:
@@ -74,7 +79,7 @@ homedir: dotfiles snippets key
 	mkdir -p ~/tools
 
 # --- APT Installers ----------------------------------------------------------
-min: 
+min: neovim 
 	sudo apt install  $(APT_ESSENTIALS) $(APT_BULLSHIT) \
 		$(APT_ARCHIVES) $(APT_TRANSPORT) -y
 net:
