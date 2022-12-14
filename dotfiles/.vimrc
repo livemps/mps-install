@@ -14,10 +14,10 @@ call plug#end()
 syntax on
 set number
 set relativenumber
+colorscheme elflord
 if has('nvim')
-  colorscheme gruvbox
-else
-  colorscheme elflord
+	set background=dark
+	colorscheme gruvbox
 endif
 set signcolumn=yes
 set colorcolumn=80
@@ -147,6 +147,5 @@ augroup DimInactiveWindows
   au WinEnter * set cursorline
   au WinLeave * set nocursorline
 augroup END
-
 
 
