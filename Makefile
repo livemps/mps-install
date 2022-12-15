@@ -25,6 +25,8 @@ APT_DSK_THUNAR      := thunar thunar-data thunar-archive-plugin \
 						thunar-media-tags-plugin thunar-volman \
 						xfce4-goodies xfce4-places-plugin \
 						thunar-gtkhash thunar-vcs-plugin file-roller
+APT_DSK_I3          := i3
+
 # --- Makefile config (VIM) ---------------------------------------------------
 VIMPLUG				:= ~/.vim/autoload/plug.vim
 NVIMPLUG			:= ~/.local/share/nvim/site/autoload/plug.vim 
@@ -59,6 +61,16 @@ neovim: $(VIMPLUG) $(NVIMPLUG)
 		sudo dpkg -i nvim-linux64.deb ; \
 		sudo rm nvim-linux64.deb ; \
 	fi
+# --- I3  ---------------------------------------------------------------------
+wallpaper:
+	-mkdir ~/.config/images
+	cp wallpaper/wallpaper.jpg ~.config/wallpaper/wallpaper.jpg
+
+i3-desktop:
+	-mkdir ~/.config/i3
+	cp dotfiles/i3config ~/.config/i3/config
+	sudo apt install $(APT_DSK_I3)
+
 # --- HOME folder -------------------------------------------------------------
 dotfiles: 
 	cp dotfiles/.vimrc ~
@@ -88,9 +100,6 @@ dev:
 	sudo apt install $(APT_BUILD) -y
 txt:
 	sudo apt install $(APT_BUILD) -y
-flux:
-	sudo apt install $(APT_DSK_X) $(APT_DSK_FLUXBOX) \
-		$(APT_DSK_BARS) $(APT_DSK_THUNAR) -y
 gui-tools:
 	sudo apt install $(APT_GUI_ESSENTIALS) $(APT_GUI_TERMINAL) $(APT_GUI_ICONS) \
 		$(APT_GUI_WEB_CLIENTS) $(APT_GUI_TXT_CLIENTS) $(APT_GUI_MM_CLIENTS) -y
@@ -100,6 +109,6 @@ essentials: min homedir
 server: essentials net
 developer: server dev
 worker: developer txt
-desktop-min: worker flux
+desktop-min: worker i3-desktop
 desktop-tools: desktop-min gui-tools
 
