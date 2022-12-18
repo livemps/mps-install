@@ -7,6 +7,8 @@ Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.0' }
 Plug 'preservim/nerdtree'
+Plug 'scrooloose/nerdcommenter'
+
 call plug#end()
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Syntax / Highlight / Visual / Audio / etc. 
@@ -32,6 +34,10 @@ set shiftwidth=4
 set expandtab
 set smartindent
 set nowrap
+set nohlsearch
+set noincsearch
+set ignorecase
+set smartcase
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Splits / Buffers 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -147,5 +153,3 @@ augroup DimInactiveWindows
   au WinEnter * set cursorline
   au WinLeave * set nocursorline
 augroup END
-
-

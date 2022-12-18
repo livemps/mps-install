@@ -1,0 +1,263 @@
+################################################################################
+########## I3 CONFIOG (MPS) ####################################################
+################################################################################
+#### CONF VARIABLES ############################################################
+# Modifier
+set $mod Mod4
+# Monitors
+set $Mon1 DP-2
+set $Mon2 HDMI-0
+# Default terminal
+set $term=kitty
+# VM Monitors
+#set $Mon1 Virtual1
+#set $Mon2 Virtual1
+# Workspace names
+set $ws1 "1:Web "
+set $ws2 "2:Term "
+set $ws3 "3:Ide ✏"
+set $ws4 "4:Host 🖧"
+set $ws5 "5:VM "
+set $ws6 "6:Ext "
+set $ws7 "7:Com "
+set $ws8 "8:Vpn 🌍"
+set $ws9 "9:Config 🛠"
+set $ws10 "10:Media 🎵"
+#### COLORS ###################################################################
+set $fg-color 	         #d3dae3
+set $bg-color 	         #3f343f
+set $inactive-bg-color   #2f343f
+set $text-color          #f3f4f5
+set $inactive-text-color #676E7D
+set $urgent-bg-color     #E53935
+# window colors
+#                       border              background         text                 indicator
+client.focused          $bg-color           $bg-color          $text-color          #00ff00
+client.unfocused        $inactive-bg-color $inactive-bg-color $inactive-text-color #00ff00
+client.focused_inactive $inactive-bg-color $inactive-bg-color $inactive-text-color #00ff00
+client.urgent           $urgent-bg-color    $urgent-bg-color   $text-color          #00ff00
+
+#### FONTS #####################################################################
+#font pango:monospace 10
+#font pango: M+ 1m, FontAwesome, Ionicons, 10
+font pango:System San Francisco Display 13
+
+#### WORKSPACES ################################################################
+# Workspace to Monitors
+workspace $ws1 output $Mon1
+workspace $ws2 output $Mon1
+workspace $ws3 output $Mon1
+workspace $ws4 output $Mon1
+workspace $ws5 output $Mon1
+workspace $ws6 output $Mon2
+workspace $ws7 output $Mon2
+workspace $ws8 output $Mon2
+workspace $ws9 output $Mon2
+workspace $ws10 output $Mon2
+# Default Layouts
+for_window [workspace=$ws3] layout stacked
+for_window [workspace=$ws7] layout stacked
+# Bind window classes to workspaces
+assign [class="Firefox-esr"] $ws1
+assign [class="Eclipse"] $ws3
+assign [class="Gedit"] $ws3
+assign [class="VirtualBox Manager"] $ws5
+assign [class="thunderbird-default"] $ws7
+assign [class="Mumble"] $ws7
+assign [class="zoom"] $ws7
+assign [class="Microsoft Teams - Preview"] $ws7
+assign [class="Pavucontrol"] $ws9
+assign [class="Spotify"] $ws10
+
+#### DEFAULT KEYBINDS ##########################################################
+# Use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
+# start a terminal
+bindsym $mod+Return exec x-terminal-emulator 
+# kill focused window
+bindsym $mod+Shift+q kill
+# change focus
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+# alternatively, you can use the cursor keys:
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+# move focused window
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+# alternatively, you can use the cursor keys:
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+# enter fullscreen mode for the focused container
+bindsym $mod+f fullscreen toggle
+# change container layout (stacked, tabbed, toggle split)
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+# toggle tiling / floating
+bindsym $mod+Shift+space floating toggle
+# change focus between tiling / floating windows
+bindsym $mod+space focus mode_toggle
+# focus the parent container
+bindsym $mod+a focus parent
+# focus the child container
+#bindsym $mod+d focus child
+# Use pactl to adjust volume in PulseAudio.
+set $refresh_i3status killall -SIGUSR1 i3status
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
+bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+# switch to workspace
+bindsym $mod+1 workspace number $ws1
+bindsym $mod+2 workspace number $ws2
+bindsym $mod+3 workspace number $ws3
+bindsym $mod+4 workspace number $ws4
+bindsym $mod+5 workspace number $ws5
+bindsym $mod+6 workspace number $ws6
+bindsym $mod+7 workspace number $ws7
+bindsym $mod+8 workspace number $ws8
+bindsym $mod+9 workspace number $ws9
+bindsym $mod+0 workspace number $ws10
+# move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace number $ws1  ; workspace $ws1
+bindsym $mod+Shift+2 move container to workspace number $ws2  ; workspace $ws2
+bindsym $mod+Shift+3 move container to workspace number $ws3  ; workspace $ws3
+bindsym $mod+Shift+4 move container to workspace number $ws4  ; workspace $ws4
+bindsym $mod+Shift+5 move container to workspace number $ws5  ; workspace $ws5
+bindsym $mod+Shift+6 move container to workspace number $ws6  ; workspace $ws6
+bindsym $mod+Shift+7 move container to workspace number $ws7  ; workspace $ws7
+bindsym $mod+Shift+8 move container to workspace number $ws8  ; workspace $ws8
+bindsym $mod+Shift+9 move container to workspace number $ws9  ; workspace $ws9
+bindsym $mod+Shift+0 move container to workspace number $ws1  ; workspace $ws10
+bindsym $mod+Shift+c reload
+bindsym $mod+Shift+r restart
+mode "resize" {
+        bindsym j resize shrink width 10 px or 10 ppt
+        bindsym k resize grow height 10 px or 10 ppt
+        bindsym l resize shrink height 10 px or 10 ppt
+        bindsym odiaeresis resize grow width 10 px or 10 ppt
+        # same bindings, but for the arrow keys
+        bindsym Left resize shrink width 10 px or 10 ppt
+        bindsym Down resize grow height 10 px or 10 ppt
+        bindsym Up resize shrink height 10 px or 10 ppt
+        bindsym Right resize grow width 10 px or 10 ppt
+        # back to normal: Enter or Escape or $mod+r
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+        bindsym $mod+r mode "default"
+}
+bindsym $mod+r mode "resize"
+
+#### CUSTOM KEYBINDS ##########################################################
+
+# Move Workspace to Display
+bindsym $mod+n move workspace to output $Mon1
+bindsym $mod+m move workspace to output $Mon2
+
+# Switch workspaces
+bindsym $mod+Control+Left workspace prev_on_output
+bindsym $mod+Control+Right workspace next_on_output
+bindsym $mod+Control+Mod1+Left workspace prev
+bindsym $mod+Control+Mod1+Right workspace next
+
+# split in horizontal orientation
+bindsym $mod+Shift+v split h
+# split in vertical orientation
+bindsym $mod+v split v
+
+# Command runner
+bindsym $mod+d exec rofi -show run -font "System San Francisco Display 14"
+
+# Power menu
+bindsym Control+$mod+Mod1+Delete exec ~/snippets/powermenu.bash
+set $mode_launcher Select: [r]eboot, power[o]ff, [u]ser exit, [l]ock screen
+bindsym Control+$mod+Mod1+z mode "$mode_launcher"
+mode "$mode_launcher" {
+        # r: Reboot, o: poweroff, s: session exit, l: lock screen
+        bindsym r exec systemctl reboot
+        bindsym o exec systemctl poweroff
+        bindsym u exec i3-msg exit
+        bindsym l exec i3lock
+        # back to normal: Enter or Escape or $mod+r
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+        bindsym $mod+z mode "default"
+}
+
+#### SCREEN ####################################################################
+# Background
+exec_always feh --bg-scale ~/.config/images/wallpaper.jpg
+# Resolution mainframe
+exec xrandr --output HDMI-0 --mode 1920x1080 --pos 1920x0 --rotate normal \
+    --output DP-2 --primary --mode 1920x1080 --pos 0x0 --rotate normal
+# Resolution Virtual Machine
+#exec xrandr --output Virtual1 --mode 1920x1080 
+
+#### BAR #######################################################################
+# Start i3bar to display a workspace bar (plus the system information i3status
+# finds out, if available)
+bar {
+        font pango:FontAwesome 12
+        tray_output $Mon1
+        output $Mon1
+        position bottom
+        #status_command i3status
+        #status_command i3blocks -c ~/.config/i3/i3blocks.conf
+	    status_command ~/.local/bin/bumblebee-status -m cpu memory disk git \
+		    pasink pasource datetime -p time.format="%H:%M:%S" -t solarized
+}
+bar {
+        #tray_output $Mon2
+        output $Mon2
+        position bottom
+        status_command i3status
+}
+
+#### AUTOSTART #################################################################
+# X Server settings
+exec --no-startup-id compton -b -f -D 5
+exec --no-startup-id setxkbap de
+exec --no-startup-id xrdb ~.Xressources
+exec --no-startup-id xset r rate 350 50
+exec --no-startup-id xset s off
+exec --no-startup-id xset -dpms
+
+# Workspace Defaults
+exec i3-msg split h
+exec i3-msg workspace $ws1
+
+# Custom Containers
+exec --no-startup-id sleep 0.1 && i3-msg workspace $ws2 ; x-terminal-emulator
+exec --no-startup-id sleep 0.4 && i3-msg workspace $ws4 ; x-terminal-emulator -e sh -c "htop && bash -i"
+exec --no-startup-id sleep 0.4 && i3-msg workspace $ws4 ; x-terminal-emulator -e sh -c "~/snippets/he && bash -i"
+exec --no-startup-id sleep 0.7 && i3-msg split v
+exec --no-startup-id sleep 1.0 && i3-msg workspace $ws4 ; x-terminal-emulator -e sh -c "~/snippets/ho && bash -i"
+exec --no-startup-id sleep 1.3 && i3-msg split h
+exec --no-startup-id sleep 1.6 && i3-msg workspace $ws8 ; x-terminal-emulator
+exec --no-startup-id sleep 1.9 && i3-msg workspace $ws8 ; x-terminal-emulator
+exec --no-startup-id sleep 2.2 && i3-msg workspace $ws10 ; spotify
+
+# Start Other Containers (Class Asigned)
+exec --no-startup-id sleep 2.5 && gedit  
+exec --no-startup-id sleep 2.5 && virtualbox
+exec --no-startup-id sleep 2.5 && zoom
+exec --no-startup-id sleep 2.5 && teams
+exec --no-startup-id sleep 2.5 && thunderbird
+exec --no-startup-id sleep 2.5 && mumble
+exec --no-startup-id sleep 2.5 && pavucontrol
+exec --no-startup-id sleep 2.5 && i3-msg workspace $ws1 ; firefox
+exec --no-startup-id sleep 3.5 && i3-msg split h
+
+# Other utils 
+exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
+exec --no-startup-id nm-applet
+

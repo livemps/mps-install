@@ -1,8 +1,10 @@
 
+
 # --- Makefile setup ----------------------------------------------------------
-default: help
-.PHONY: default help prepare dotfiles snippets homedir min key net dev txt \
-	flux gui-tools essentials server developer worker desktop-min desktop-tools
+default: all
+all: desktop-full
+.PHONY: all default help prepare dotfiles snippets homedir fonts min key net dev txt \
+	flux gui-tools essentials server developer worker desktop-min desktop-full
 
 # --- Makefile config (APT) ---------------------------------------------------
 APT_TRANSPORT       := apt-transport-https ca-certificates curl gnupg2 wget
@@ -13,19 +15,21 @@ APT_BUILD           := gcc gdb build-essential
 APT_NETWORK         := net-tools iptables tcpdump whois ssh nmap netcat dnsutils
 APT_TEXTPROC        := textlive-full pandoc
 APT_GUI_ESSENTIALS  := galculator gedit gedit-plugins numlockx arandr
-APT_GUI_TERMINAL    := gnome-terminal xterm lxterminal tilda
+APT_GUI_TERMINAL    := gnome-terminal xterm lxterminal
 APT_GUI_ICONS       := lxde-icon-theme gnome-extra-icons
 APT_GUI_WEB_CLIENTS := firefox-esr thunderbird
 APT_GUI_TXT_CLIENTS := evince gedit gedit-plugins
 APT_GUI_MM_CLIENTS  := vlc
 APT_DSK_X           := xorg xserver-xorg-video-nouveau xserver-xorg-video-vesa
-APT_DSK_FLUXBOX     := fluxbox lightdm
-APT_DSK_BARS        := wbar wbar-config conky wmctrl tint2
+#APT_DSK_FLUXBOX     := fluxbox lightdm
+#APT_DSK_BARS        := wbar wbar-config conky wmctrl tint2
 APT_DSK_THUNAR      := thunar thunar-data thunar-archive-plugin \
 						thunar-media-tags-plugin thunar-volman \
 						xfce4-goodies xfce4-places-plugin \
 						thunar-gtkhash thunar-vcs-plugin file-roller
-APT_DSK_I3          := i3
+APT_DSK_I3          := lightdm i3 compton rxvt-unicode rofi arc-theme
+APT_DSK_X           := xbacklight
+APT_DSK_GNOME_TOOLS := gnome-system-monitor
 
 # --- Makefile config (VIM) ---------------------------------------------------
 VIMPLUG				:= ~/.vim/autoload/plug.vim
@@ -63,29 +67,38 @@ neovim: $(VIMPLUG) $(NVIMPLUG)
 	fi
 # --- I3  ---------------------------------------------------------------------
 wallpaper:
-	-mkdir ~/.config/images
-	cp wallpaper/wallpaper.jpg ~.config/wallpaper/wallpaper.jpg
+	cp -r dotfiles/.config/images/ ~/.config/
 
 i3-desktop:
-	-mkdir ~/.config/i3
-	cp dotfiles/i3config ~/.config/i3/config
-	sudo apt install $(APT_DSK_I3)
+	cp -r dotfiles/.config/i3/ ~/.config/
+	cp -r dotfiles/.config/rofi/ ~/.config/
+	cp -r dotfiles/.config/kitty/ ~/.config/
+	cp -r dotfiles/.config/compton.conf ~/.config/
+	sudo apt install $(APT_DSK_I3) $(APT_DSK_X)
 
 # --- HOME folder -------------------------------------------------------------
+fonts:
+	-mkdir ~/.fonts
+	cp fonts/* ~/.fonts/
+
 dotfiles: 
 	cp dotfiles/.vimrc ~
-	cp dotfiles/init.vim ~/.config/nvim/init.vim
 	cp dotfiles/.bashrc ~
 	cp dotfiles/.gitconfig ~
+	cp -r dotfiles/.config/neofetch/ ~/.config/
+	cp -r dotfiles/.config/nvim/ ~/.config/
+
 snippets:
 	mkdir -p ~/snippets
 	cp snippets/* ~/snippets/
 	chmod a+x ~/snippets/*
+
 key:
 	@if [ ! -f ~/.ssh/id_rsa.pub ] ; then \
 	  ssh-keygen ; \
 	fi
-homedir: dotfiles snippets key
+
+homedir: fonts dotfiles snippets key
 	mkdir -p ~/scratch
 	mkdir -p ~/repo
 	mkdir -p ~/tools
@@ -110,5 +123,5 @@ server: essentials net
 developer: server dev
 worker: developer txt
 desktop-min: worker i3-desktop
-desktop-tools: desktop-min gui-tools
+desktop-full: desktop-min gui-tools
 
