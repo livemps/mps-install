@@ -12,7 +12,7 @@ APT_ESSENTIALS      := git vim neovim sudo htop psmisc tree
 APT_BULLSHIT        := cowsay fortune fortunes-de fortunes-off cmatrix
 APT_ARCHIVES        := zip unzip bzip2 dtrx
 APT_BUILD           := gcc gdb build-essential
-APT_NETWORK         := net-tools iptables tcpdump whois ssh nmap netcat dnsutils
+APT_NETWORK         := net-tools iptables tcpdump iw whois ssh nmap netcat dnsutils
 APT_TEXTPROC        := textlive-full pandoc
 APT_GUI_ESSENTIALS  := galculator gedit gedit-plugins numlockx arandr
 APT_GUI_TERMINAL    := gnome-terminal xterm lxterminal
@@ -29,7 +29,8 @@ APT_DSK_THUNAR      := thunar thunar-data thunar-archive-plugin \
 						thunar-gtkhash thunar-vcs-plugin file-roller
 APT_DSK_I3          := lightdm i3 compton rxvt-unicode rofi arc-theme
 APT_DSK_X           := xbacklight
-APT_DSK_GNOME_TOOLS := gnome-system-monitor
+APT_DSK_GNOME_TOOLS := gnome-system-monitor python3-netifaces gitsome 
+APT_PYTHON          := python3-pygit2 python3-netifaces 
 
 # --- Makefile config (VIM) ---------------------------------------------------
 VIMPLUG				:= ~/.vim/autoload/plug.vim
@@ -74,7 +75,7 @@ i3-desktop:
 	cp -r dotfiles/.config/rofi/ ~/.config/
 	cp -r dotfiles/.config/kitty/ ~/.config/
 	cp -r dotfiles/.config/compton.conf ~/.config/
-	sudo apt install $(APT_DSK_I3) $(APT_DSK_X)
+	sudo apt install $(APT_DSK_I3) $(APT_DSK_X) $(APT_DSK_GNOME_TOOLS) $(APT_PYTHON)
 
 # --- HOME folder -------------------------------------------------------------
 fonts:
@@ -85,6 +86,7 @@ dotfiles:
 	cp dotfiles/.vimrc ~
 	cp dotfiles/.bashrc ~
 	cp dotfiles/.gitconfig ~
+	cp dotfiles/.config/mimeapps.list ~/.config/
 	cp -r dotfiles/.config/neofetch/ ~/.config/
 	cp -r dotfiles/.config/nvim/ ~/.config/
 
@@ -99,6 +101,7 @@ key:
 	fi
 
 homedir: fonts dotfiles snippets key
+	xdg-user-dirs-update
 	mkdir -p ~/scratch
 	mkdir -p ~/repo
 	mkdir -p ~/tools
