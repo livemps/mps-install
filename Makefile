@@ -52,7 +52,6 @@ dotfiles:
 	cp dotfiles/.vimrc ~
 	cp dotfiles/.bashrc ~
 	cp dotfiles/.gitconfig ~
-	cp dotfiles/.config/mimeapps.list ~/.config/
 	cp -r dotfiles/.config/neofetch/ ~/.config/
 	cp -r dotfiles/.config/nvim/ ~/.config/
 snippets:
