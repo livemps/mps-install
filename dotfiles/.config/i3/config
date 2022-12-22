@@ -52,6 +52,7 @@ for_window [workspace=$ws7] layout stacked
 assign [class="Firefox-esr"] $ws3
 assign [class="Eclipse"] $ws2
 assign [class="Gedit"] $ws2
+assign [class="Thunar"] $ws2
 assign [class="VirtualBox Manager"] $ws5
 assign [class="thunderbird-default"] $ws7
 assign [class="Mumble"] $ws7
@@ -159,10 +160,14 @@ bindsym $mod+Control+Mod1+Right workspace next
 bindsym $mod+Shift+v split h
 # split in vertical orientation
 bindsym $mod+v split v
+# Applications
+bindsym Mod1+F1 exec i3-msg workspace $ws3 && firefox-esr
+bindsym Mod1+F2 exec i3-msg workspace $ws7 && thunderbird
+bindsym Mod1+F3 exec i3-msg workspace $ws2 && thunar
+bindsym Mod1+F4 exec i3-msg workspace $ws9 && pavucontrol
+
 # Command runner
 bindsym $mod+d exec rofi -show run -font "System San Francisco Display 14"
-# Applications
-bindsym Mod1+F1 exec firefox-esr
 
 # Power menu
 bindsym Control+$mod+Mod1+Delete exec ~/snippets/powermenu.bash
@@ -185,8 +190,8 @@ exec_always feh --bg-scale ~/.config/images/wallpaper.jpg
 # Resolution mainframe
 exec xrandr --output HDMI-0 --mode 1920x1080 --pos 1920x0 --rotate normal \
     --output DP-2 --primary --mode 1920x1080 --pos 0x0 --rotate normal
-#exec xrandr --output Virtual1 --mode 1920x1080 
-#### BARS Mon1 #######################################################################
+#exec xrandr --output Virtual1 --mode 1920x1080
+#### BARS Mon1 #################################################################
 bar {
         font pango:FontAwesome 9
         tray_output none
@@ -212,10 +217,11 @@ bar {
         output $Mon1
         position bottom
 	    status_command ~/.local/bin/bumblebee-status \
-            -m disk:ssd disk:win disk:dev disk:home disk:root \
+            -m disk:4tb disk:ssd disk:win disk:dev disk:home disk:root \
             -m git docker_ps apt indicator weather arandr layout datetime \
             -p root.open="thunar" -p root.path="/" -p root.format="/: ({percent:05.02f}%)" \
             -p home.open="thunar" -p home.path="/home/odem" -p home.format="~: ({percent:05.02f}%)" \
+            -p 4tb.open="thunar" -p 4tb.path="/media/disks/4tbnvme" -p 4tb.format="4tb: ({percent:05.02f}%)" \
             -p ssd.open="thunar" -p ssd.path="/media/disks/1tbssd" -p ssd.format="ssd: ({percent:05.02f}%)" \
             -p dev.open="thunar" -p dev.path="/media/disks/devstore" -p dev.format="dev: ({percent:05.02f}%)" \
             -p win.open="thunar" -p win.path="/media/disks/win" -p win.format="win: ({percent:05.02f}%)" \
@@ -224,7 +230,7 @@ bar {
             background $col-bg-inactive
         }
 }
-#### BARS Mon2 #######################################################################
+#### BARS Mon2 #################################################################
 bar {
         font pango:FontAwesome 9
         tray_output none
@@ -250,10 +256,11 @@ bar {
         output $Mon2
         position bottom
 	    status_command ~/.local/bin/bumblebee-status \
-            -m disk:ssd disk:win disk:dev disk:home disk:root \
+            -m disk:4tb disk:ssd disk:win disk:dev disk:home disk:root \
             -m git docker_ps apt indicator weather arandr layout datetime \
             -p root.open="thunar" -p root.path="/" -p root.format="/: ({percent:05.02f}%)" \
             -p home.open="thunar" -p home.path="/home/odem" -p home.format="~: ({percent:05.02f}%)" \
+            -p 4tb.open="thunar" -p 4tb.path="/media/disks/4tbnvme" -p 4tb.format="4tb: ({percent:05.02f}%)" \
             -p ssd.open="thunar" -p ssd.path="/media/disks/1tbssd" -p ssd.format="ssd: ({percent:05.02f}%)" \
             -p dev.open="thunar" -p dev.path="/media/disks/devstore" -p dev.format="dev: ({percent:05.02f}%)" \
             -p win.open="thunar" -p win.path="/media/disks/win" -p win.format="win: ({percent:05.02f}%)" \
