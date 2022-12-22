@@ -5,7 +5,7 @@ all: essentials
 	bs min net dev txt essentials server developer worker
 # --- Makefile config (APT) ---------------------------------------------------
 APT_TRANSPORT       := apt-transport-https ca-certificates curl gnupg2 wget
-APT_ESSENTIALS      := git vim neovim sudo htop psmisc tree
+APT_ESSENTIALS      := git vim neovim sudo htop psmisc tree neofetch
 APT_BULLSHIT        := cowsay fortune fortunes-de fortunes-off cmatrix
 APT_ARCHIVES        := zip unzip bzip2 dtrx
 APT_BUILD           := gcc gdb build-essential
