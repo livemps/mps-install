@@ -5,7 +5,7 @@ all: essentials
 	bs min net dev txt essentials server developer worker
 # --- Makefile config (APT) ---------------------------------------------------
 APT_TRANSPORT       := apt-transport-https ca-certificates curl gnupg2 wget
-APT_ESSENTIALS      := git vim neovim sudo htop psmisc tree neofetch
+APT_ESSENTIALS      := git vim sudo htop psmisc tree neofetch
 APT_BULLSHIT        := cowsay fortune fortunes-de fortunes-off cmatrix
 APT_ARCHIVES        := zip unzip bzip2 dtrx
 APT_BUILD           := gcc gdb build-essential
@@ -38,15 +38,17 @@ $(NVIMPLUG):
        		https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 neovim: $(VIMPLUG) $(NVIMPLUG)
 	@if [ ! -f /usr/bin/nvim ] ; then \
+		sudo apt remove --purge neovim ; \
+		sudo apt autoremove ; \
 		curl -LO https://github.com/neovim/neovim/releases/download/stable/nvim-linux64.deb ; \
 		sudo dpkg -i nvim-linux64.deb ; \
 		sudo rm nvim-linux64.deb ; \
 	fi
 # --- HOME folder -------------------------------------------------------------
 fonts:
-	-mkdir ~/.fonts
+	#-mkdir ~/.fonts
 	-mkdir -p ~/.local/share/fonts
-	cp -r fonts/* ~/.fonts/
+	#cp -r fonts/* ~/.fonts/
 	cp -r fonts/* ~/.local/share/fonts
 dotfiles: 
 	cp dotfiles/.vimrc ~
@@ -61,7 +63,6 @@ snippets:
 ~/.ssh/id_rsa.pub:
 	ssh-keygen ;
 homedir: fonts dotfiles snippets ~/.ssh/id_rsa.pub
-	xdg-user-dirs-update
 	mkdir -p ~/scratch
 	mkdir -p ~/repo
 	mkdir -p ~/tools
