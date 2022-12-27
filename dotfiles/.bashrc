@@ -157,6 +157,14 @@ alias di="docker images"
 # network
 alias ns='sudo netstat -tulpano'
 alias v='nvim'
+# mps
+alias repo="cd ~/mps/repo"
+alias disks="cd ~/mps/disks"
+alias docs="cd ~/mps/docs"
+alias scratch="cd ~/mps/scratch"
+alias snippets="cd ~/mps/snippets"
+alias vm="cd ~/mps/vm"
+alias wsp="cd ~/mps/wsp"
 
 #--- Bash completion ----------------------------------------------------------
 if ! shopt -oq posix; then
@@ -168,6 +176,6 @@ if ! shopt -oq posix; then
 fi
 
 #--- Environment Variable -----------------------------------------------------
-export PATH=$PATH:~/snippets
+export PATH=$PATH:~/mps/snippets
 export EDITOR=nvim
 neofetch

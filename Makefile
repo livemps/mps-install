@@ -57,21 +57,26 @@ dotfiles:
 	cp -r dotfiles/.config/neofetch/ ~/.config/
 	cp -r dotfiles/.config/nvim/ ~/.config/
 snippets:
-	mkdir -p ~/snippets
-	cp snippets/* ~/snippets/
-	chmod a+x ~/snippets/*
+	mkdir -p ~/mps/snippets
+	cp snippets/* ~/mps/snippets/
+	chmod a+x ~/mps/snippets/*
 ~/.ssh/id_rsa.pub:
 	ssh-keygen
 homedir: fonts dotfiles snippets ~/.ssh/id_rsa.pub
 	mkdir -p ~/mps/scratch
 	mkdir -p ~/mps/repo
 	mkdir -p ~/mps/tools
-	mkdir -p ~/mps/snippets
 	mkdir -p ~/mps/vm
 	mkdir -p ~/mps/disks
 	mkdir -p ~/mps/docs
 	mkdir -p ~/mps/wsp
-
+symlinks: homedir
+	cd ~/mps/disks/ ; \
+	ln -s /media/disks/1tbssd/ . ; \
+	ln -s /media/disks/4tbnvme/ . ; \
+	ln -s /media/disks/devstore/ . ; \
+	ln -s /media/disks/win/ . ; \
+	cd - 
 # --- APT Installers ----------------------------------------------------------
 bs:
 	sudo apt install  $(APT_BULLSHIT) --yes
@@ -84,7 +89,7 @@ dev:
 txt:
 	sudo apt install $(APT_BUILD) --yes
 # --- Meta-Targets ------------------------------------------------------------
-essentials: min homedir neovim bs
+essentials: min symlinks neovim bs
 server: essentials net
 developer: server dev
 worker: developer txt
