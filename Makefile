@@ -1,6 +1,6 @@
 # --- Makefile setup ----------------------------------------------------------
-default: all
-all: essentials
+default: essentials
+all: worker
 .PHONY: all default help prepare neovim fonts dotfiles snippets homedir \
 	bs min net dev txt essentials server developer worker
 # --- Makefile config (APT) ---------------------------------------------------
