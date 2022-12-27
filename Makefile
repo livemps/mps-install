@@ -26,7 +26,7 @@ help:
 	@echo ""
 # --- Update ------------------------------------------------------------------
 prepare:
-	sudo apt update -y && sudo apt upgrade -y
+	sudo apt update --yes && sudo apt upgrade --yes
 
 # --- Vim Plugins -------------------------------------------------------------
 $(VIMPLUG):
@@ -61,22 +61,28 @@ snippets:
 	cp snippets/* ~/snippets/
 	chmod a+x ~/snippets/*
 ~/.ssh/id_rsa.pub:
-	ssh-keygen ;
+	ssh-keygen
 homedir: fonts dotfiles snippets ~/.ssh/id_rsa.pub
-	mkdir -p ~/scratch
-	mkdir -p ~/repo
-	mkdir -p ~/tools
+	mkdir -p ~/mps/scratch
+	mkdir -p ~/mps/repo
+	mkdir -p ~/mps/tools
+	mkdir -p ~/mps/snippets
+	mkdir -p ~/mps/vm
+	mkdir -p ~/mps/disks
+	mkdir -p ~/mps/docs
+	mkdir -p ~/mps/wsp
+
 # --- APT Installers ----------------------------------------------------------
 bs:
-	sudo apt install  $(APT_BULLSHIT) -y
+	sudo apt install  $(APT_BULLSHIT) --yes
 min:
-	sudo apt install  $(APT_ESSENTIALS) $(APT_ARCHIVES) $(APT_TRANSPORT) -y
+	sudo apt install  $(APT_ESSENTIALS) $(APT_ARCHIVES) $(APT_TRANSPORT) --yes
 net:
-	sudo apt install $(APT_NETWORK) -y
+	sudo apt install $(APT_NETWORK) --yes
 dev:
-	sudo apt install $(APT_BUILD) -y
+	sudo apt install $(APT_BUILD) --yes
 txt:
-	sudo apt install $(APT_BUILD) -y
+	sudo apt install $(APT_BUILD) --yes
 # --- Meta-Targets ------------------------------------------------------------
 essentials: min homedir neovim bs
 server: essentials net
